@@ -13,7 +13,9 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
  * @return {ShalloeWapper}
  */
 const setup = (props = {}, state = null) => {
-  return shallow(<App {...props} />);
+  const wrapper = shallow(<App {...props} />);
+  if (state) wrapper.setState(state);
+  return wrapper;
 };
 
 /**
@@ -45,6 +47,21 @@ it("renders counter display", () => {
   expect(counterDisplay.length).toBe(1);
 });
 
-it("counter starts at 0", () => {});
+it("counter starts at 0", () => {
+  const wrapper = setup();
+  const initialCounterState = wrapper.state("counter");
+  expect(initialCounterState).toBe(0);
+});
 
-it("click button increments counter display", () => {});
+it("click button increments counter display", () => {
+  const counter = 7;
+  const wrapper = setup(null, { counter });
+
+  // find button and click
+  const button = findByTestAttr(wrapper, "increment-button");
+  button.simulate("click");
+
+  // find display and test value
+  const counterDisplay = findByTestAttr(wrapper, "counter-display");
+  expect(counterDisplay.text()).toContain(counter + 1);
+});
