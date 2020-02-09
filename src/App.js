@@ -10,8 +10,7 @@ class App extends Component {
     return (
       <div data-test="component-app">
         <h1 data-test="counter-display">
-          Counter is{" "}
-          {this.state.counter >= 0 ? this.state.counter : <h1>NOT</h1>}
+          Counter is {this.state.counter >= 0 ? this.state.counter : <p>NOT</p>}
         </h1>
         <button
           data-test="increment-button"
